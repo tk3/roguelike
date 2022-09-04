@@ -25,14 +25,12 @@ class Room
     Curses.addstr(@horizontal_char * @width)
 
     # left
-    Curses.setpos(@top - 1, @left - 1)
     (@height - 2).times do |y|
       Curses.setpos(@top - 1 + y + 1, @left - 1)
       Curses.addstr(@vertical_char)
     end
 
     # right
-    Curses.setpos(@top - 1, @left - 1)
     (@height - 2).times do |x|
       Curses.setpos(@top - 1 + x + 1, @left - 1 + @width - 1)
       Curses.addstr(@vertical_char)
