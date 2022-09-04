@@ -41,6 +41,7 @@ end
 
 if __FILE__ == $0
   Curses.init_screen
+  Curses.curs_set(0)
 
   x = 3
   y = 4
