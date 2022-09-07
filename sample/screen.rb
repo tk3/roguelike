@@ -2,6 +2,19 @@
 
 require "curses"
 
+class Position
+  attr_accessor :y, :x
+
+  def initialize(y, x)
+    @y = y
+    @x = x
+  end
+
+  def to_s
+    "y = #{@y}, x = #{@x}"
+  end
+end
+
 class Screen
   attr_reader :max_y, :max_x
   attr_reader :min_y, :min_x
@@ -27,11 +40,24 @@ class Screen
       puts @grid[index].join
     end
   end
+
+  def copy
+    tmp = Marshal.dump(self)
+    Marshal.load(tmp)
+  end
 end
 
 if __FILE__ == $0
 
   require "pp"
 
+  screen1 = Screen.new(3, 3)
+  screen1_copy = screen1.copy
+
+  puts "----"
+  screen1.draw
+  puts "----"
+  screen1_copy.set(Position.new(1,1), '@')
+  screen1_copy.draw
 end
 
