@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-require "curses"
 require "./array2d"
 
 module TileType
@@ -33,10 +32,8 @@ class Map < Array2d
   end
 
   def draw
-    Curses.erase
     @grid.each_index do |y|
       @grid[y].each_index do |x|
-        Curses.setpos(y, x)
         ch = case @grid[y][x]
              when TileType::FLOOR
                "."
@@ -45,10 +42,10 @@ class Map < Array2d
              else
                " "
              end
-        Curses.addch(ch)
+        print ch
       end
+      print "\n"
     end
-    Curses.refresh
   end
 
   def to_array2d
@@ -76,13 +73,8 @@ class Map < Array2d
 end
 
 if __FILE__ == $0
-
-  Curses.init_screen
-
-  map = Map.new(Curses.lines, Curses.cols)
+  map = Map.new(30, 30)
   map.generate
   map.draw
-
-  Curses.get_char
 end
 
