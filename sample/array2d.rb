@@ -34,16 +34,24 @@ class Array2d
     end
   end
 
-
   def insert(arr2d, y, x)
+    (y...(arr2d.max_y + y)).each do |ay|
+      (x...(arr2d.max_x + x)).each do |ax|
+        puts ">> #{ay}, #{ax}"
+        @grid[ay][ax] = arr2d.grid[ay - y][ax - x]
+      end
+    end
   end
 end
 
 
 if __FILE__ == $0
 
-  arr1 = Array2d.new(10, 10, ".")
+  arr1 = Array2d.new(5, 5, ".")
+  arr2 = Array2d.new(5, 5, "#")
+  arr1.insert(arr2, 0, 0)
   arr1.draw
+
 
 end
 
