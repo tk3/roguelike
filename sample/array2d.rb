@@ -22,14 +22,18 @@ class Array2d
     @grid[position.y][position.x] = ch
   end
 
+  def set(y, x, ch)
+    @grid[y][x] = ch
+  end
+
   def clear
     @grid = Array.new(@max_y) { Array.new(@max_x, @initial_val) }
   end
 
   def draw
-    @grid.each_index do |index|
-      puts @grid[index].join
-    end
+#   @grid.each_index do |index|
+#     puts @grid[index].join
+#   end
   end
 
   def insert(arr2d, y, x)
@@ -45,7 +49,6 @@ class Array2d
            end
     (y...max_y).each do |ay|
       (x...max_x).each do |ax|
-        puts ">> #{ay}, #{ax}"
         @grid[ay][ax] = arr2d.grid[ay - y][ax - x]
       end
     end
