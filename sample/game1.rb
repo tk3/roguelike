@@ -3,46 +3,10 @@
 require "curses"
 
 require "./position"
+require "./array2d"
 require "./screen"
 require "./map"
-
-class Actor
-  def move(position, input, screen)
-  end
-end
-
-class Player < Actor
-  attr_reader :position
-
-  def initialize(position)
-    @position = position
-  end
-
-  def x
-    @position.x
-  end
-
-  def x=(value)
-    @position.x = value
-  end
-
-  def y
-    @position.y
-  end
-
-  def y=(value)
-    @position.y = value
-  end
-
-  def to_ch
-    '@'
-  end
-
-  def draw
-    Curses.setpos(@position.y, @position.x)
-    Curses.addch(self.to_ch)
-  end
-end
+require "./player"
 
 class GameState
   def initialize(screen, player)
@@ -55,10 +19,14 @@ class GameState
   end
 
   def tick
+
+    map = Map.new(@screen.max_y, @screen.max_x)
+    map.generate
+
     @screen.clear
+    @screen.insert(map.to_array2d, 0, 0)
     @screen.set(@player.position, @player.to_ch)
     @screen.draw
-#   @player.draw
 
     while @is_active do
 
@@ -74,9 +42,9 @@ class GameState
       end
 
       @screen.clear
+      @screen.insert(map.to_array2d, 0, 0)
       @screen.set(@player.position, @player.to_ch)
       @screen.draw
-#     @player.draw
     end
   end
 
@@ -91,8 +59,6 @@ if __FILE__ == $0
   Curses.init_screen
 
   screen = Screen.new(Curses.lines, Curses.cols)
-  map = Map.new(Curses.lines, Curses.cols)
-  map.generate
   player = Player.new(Position.new(screen.max_y / 2, screen.max_x / 2))
 
   state = GameState.new(screen, player)
