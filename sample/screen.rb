@@ -2,17 +2,19 @@
 
 require "curses"
 require "./position"
+require "./array2d"
 
-class Screen
-  attr_reader :max_y, :max_x
-  attr_reader :min_y, :min_x
+class Screen < Array2d
+# attr_reader :max_y, :max_x
+# attr_reader :min_y, :min_x
 
-  def initialize(y, x)
-    @max_y = y
-    @max_x = x
-    @min_y = 0
-    @min_x = 0
-    @grid = Array.new(@max_y) { Array.new(@max_x, ' ') }
+  def initialize(y, x, initial_val = '')
+    super(y, x, initial_val)
+#   @max_y = y
+#   @max_x = x
+#   @min_y = 0
+#   @min_x = 0
+#   @grid = Array.new(@max_y) { Array.new(@max_x, ' ') }
   end
 
   def get(position)
@@ -45,10 +47,10 @@ end
 if __FILE__ == $0
   Curses.init_screen
 
-  screen1 = Screen.new(3, 3)
+  screen1 = Screen.new(3, 3, ".")
   screen1_copy = screen1.copy
 
-  screen1.draw
+# screen1.draw
   screen1_copy.set(Position.new(1,1), '@')
   screen1_copy.draw
 
