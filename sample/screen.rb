@@ -1,19 +1,7 @@
 #!/usr/bin/env ruby
 
 require "curses"
-
-class Position
-  attr_accessor :y, :x
-
-  def initialize(y, x)
-    @y = y
-    @x = x
-  end
-
-  def to_s
-    "y = #{@y}, x = #{@x}"
-  end
-end
+require "./position"
 
 class Screen
   attr_reader :max_y, :max_x
@@ -24,7 +12,7 @@ class Screen
     @max_x = x
     @min_y = 0
     @min_x = 0
-    @grid = Array.new(@max_y) { Array.new(@max_x, '.') }
+    @grid = Array.new(@max_y) { Array.new(@max_x, ' ') }
   end
 
   def get(position)
@@ -35,10 +23,17 @@ class Screen
     @grid[position.y][position.x] = ch
   end
 
+  def clear
+    @grid = Array.new(@max_y) { Array.new(@max_x, ' ') }
+  end
+
   def draw
+    Curses.erase
     @grid.each_index do |index|
-      puts @grid[index].join
+      Curses.setpos(index, 0)
+      Curses.addstr(@grid[index].join)
     end
+    Curses.refresh
   end
 
   def copy
@@ -48,16 +43,15 @@ class Screen
 end
 
 if __FILE__ == $0
-
-  require "pp"
+  Curses.init_screen
 
   screen1 = Screen.new(3, 3)
   screen1_copy = screen1.copy
 
-  puts "----"
   screen1.draw
-  puts "----"
   screen1_copy.set(Position.new(1,1), '@')
   screen1_copy.draw
+
+  Curses.getch
 end
 
