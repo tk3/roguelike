@@ -48,10 +48,6 @@ class Map < Array2d
     @grid[position.y][position.x] = ch
   end
 
-  def clear
-    @grid = Array.new(@max_y) { Array.new(@max_x, ' ') }
-  end
-
   def draw
     Curses.erase
     @grid.each_index do |y|
@@ -69,6 +65,24 @@ class Map < Array2d
       end
     end
     Curses.refresh
+  end
+
+  def to_array2d
+    new_grid = Array2d.new(@max_y, @max_x, @initial_val)
+
+    (@min_y...@max_y).each do |y|
+      (@min_x...@max_x).each do |x|
+        new_grid.set(y, x, case @grid[y][x]
+                           when TileType::FLOOR
+                             "."
+                           when TileType::WALL
+                             "#"
+                           else
+                             " "
+                           end)
+      end
+    end
+    new_grid
   end
 
   def copy
