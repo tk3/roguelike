@@ -1,22 +1,24 @@
 #!/usr/bin/env ruby
 
 require "curses"
+require "./array2d"
 
 module TileType
   WALL = 1
   FLOOR = 2
 end
 
-class Map
-  attr_reader :max_y, :max_x
-  attr_reader :min_y, :min_x
+class Map < Array2d
+# attr_reader :max_y, :max_x
+# attr_reader :min_y, :min_x
 
-  def initialize(y, x)
-    @max_y = y
-    @max_x = x
-    @min_y = 0
-    @min_x = 0
-    @grid = Array.new(@max_y) { Array.new(@max_x, TileType::FLOOR) }
+  def initialize(y, x, initial_val = '')
+    super(y, x, initial_val)
+#   @max_y = y
+#   @max_x = x
+#   @min_y = 0
+#   @min_x = 0
+#   @grid = Array.new(@max_y) { Array.new(@max_x, TileType::FLOOR) }
   end
 
   def generate
@@ -80,7 +82,7 @@ if __FILE__ == $0
   Curses.init_screen
 
   map = Map.new(Curses.lines, Curses.cols)
-# map.generate
+  map.generate
   map.draw
 
   Curses.get_char
