@@ -32,14 +32,6 @@ class Map < Array2d
     end
   end
 
-  def get(position)
-    @grid[position.y][position.x]
-  end
-
-  def set(position, ch)
-    @grid[position.y][position.x] = ch
-  end
-
   def draw
     Curses.erase
     @grid.each_index do |y|

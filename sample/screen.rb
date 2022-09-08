@@ -9,14 +9,6 @@ class Screen < Array2d
     super(y, x, initial_val)
   end
 
-  def get(position)
-    @grid[position.y][position.x]
-  end
-
-  def set(position, ch)
-    @grid[position.y][position.x] = ch
-  end
-
   def clear
     @grid = Array.new(@max_y) { Array.new(@max_x, ' ') }
   end
@@ -43,7 +35,7 @@ if __FILE__ == $0
   screen1_copy = screen1.copy
 
 # screen1.draw
-  screen1_copy.set(Position.new(1,1), '@')
+  screen1_copy.set(1, 1, '@')
   screen1_copy.draw
 
   Curses.getch
