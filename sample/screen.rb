@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-require "curses"
 require "./position"
 require "./array2d"
 
@@ -14,12 +13,9 @@ class Screen < Array2d
   end
 
   def draw
-    Curses.erase
     @grid.each_index do |index|
-      Curses.setpos(index, 0)
-      Curses.addstr(@grid[index].join)
+      puts @grid[index].join
     end
-    Curses.refresh
   end
 
   def copy
@@ -29,15 +25,11 @@ class Screen < Array2d
 end
 
 if __FILE__ == $0
-  Curses.init_screen
-
   screen1 = Screen.new(3, 3, ".")
   screen1_copy = screen1.copy
 
 # screen1.draw
   screen1_copy.set(1, 1, '@')
   screen1_copy.draw
-
-  Curses.getch
 end
 
